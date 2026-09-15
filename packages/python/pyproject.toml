@@ -3,7 +3,7 @@ requires = ["hatchling>=1.18"]
 build-backend = "hatchling.build"
 
 [project]
-name = "litport-free-proxy-sdk"
+name = "litportnet-free-proxy-sdk"
 version = "0.0.0"
 description = "Dependency-free client and CLI for Litport's verified free proxy snapshot."
 readme = "README.md"
@@ -16,7 +16,7 @@ classifiers = ["Programming Language :: Python :: 3", "Programming Language :: P
 Repository = "https://github.com/litportnet/free-proxy-sdk"
 
 [project.scripts]
-litport-free-proxies = "litport_free_proxy_sdk.cli:main"
+litportnet-free-proxies = "litportnet_free_proxy_sdk.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/litport_free_proxy_sdk"]
+packages = ["src/litportnet_free_proxy_sdk"]

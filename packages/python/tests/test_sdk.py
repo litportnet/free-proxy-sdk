@@ -7,7 +7,7 @@ from pathlib import Path
 from threading import Thread
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
-from litport_free_proxy_sdk import Client, HttpError, NotModifiedWithoutCacheError, SnapshotTruncatedError, to_proxy_url
+from litportnet_free_proxy_sdk import Client, HttpError, NotModifiedWithoutCacheError, SnapshotTruncatedError, to_proxy_url
 
 ROOT = Path(__file__).parents[3]
 NOW = lambda: datetime(2026, 9, 10, tzinfo=timezone.utc)

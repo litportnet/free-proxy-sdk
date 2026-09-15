@@ -8,10 +8,10 @@ import test from 'node:test'
 import { pathToFileURL } from 'node:url'
 
 test('the npm tarball exposes working CommonJS and ESM entry points', async () => {
-  const temp = await mkdtemp(join(tmpdir(), 'litport-free-proxy-sdk-'))
+  const temp = await mkdtemp(join(tmpdir(), 'litportnet-free-proxy-sdk-'))
   try {
     execFileSync('npm', ['pack', '--pack-destination', temp], { cwd: new URL('..', import.meta.url), stdio: 'pipe' })
-    const tarball = join(temp, 'litport-free-proxy-sdk-0.0.0.tgz')
+    const tarball = join(temp, 'litportnet-free-proxy-sdk-0.0.0.tgz')
     execFileSync('tar', ['-xzf', tarball, '-C', temp], { stdio: 'pipe' })
     const packageRoot = join(temp, 'package')
     const cjs = createRequire(join(packageRoot, 'package.json'))('./dist/index.cjs')

@@ -23,7 +23,7 @@ jobs:
         run: |
           node scripts/build-js.mjs
           node packages/js/dist/cli.cjs --limit 1 --format txt
-          PYTHONPATH=packages/python/src python -m litport_free_proxy_sdk.cli --limit 1 --format txt
+          PYTHONPATH=packages/python/src python -m litportnet_free_proxy_sdk.cli --limit 1 --format txt
       - name: Open or update a deduplicated failure issue
         if: ${{ failure() }}
         env:

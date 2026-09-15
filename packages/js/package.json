@@ -1,5 +1,5 @@
 {
-  "name": "@litport/free-proxy-sdk",
+  "name": "@litportnet/free-proxy-sdk",
   "version": "0.0.0",
   "description": "Dependency-free client and CLI for Litport's verified free proxy snapshot.",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "require": "./dist/index.cjs"
   },
   "bin": {
-    "litport-free-proxies": "./dist/cli.cjs"
+    "litportnet-free-proxies": "./dist/cli.cjs"
   },
   "files": [
     "dist",

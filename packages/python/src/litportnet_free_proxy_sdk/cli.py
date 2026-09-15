@@ -6,7 +6,7 @@ from dataclasses import asdict
 from .client import Client, FreeProxyError, to_proxy_url
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="litport-free-proxies")
+    parser = argparse.ArgumentParser(prog="litportnet-free-proxies")
     parser.add_argument("--source", choices=("api", "github"), default="api")
     parser.add_argument("--protocol"); parser.add_argument("--country"); parser.add_argument("--anonymity")
     parser.add_argument("--https", choices=("true", "false")); parser.add_argument("--max-latency-ms", type=int); parser.add_argument("--min-uptime7d", type=int); parser.add_argument("--min-checks7d", type=int); parser.add_argument("--checked-within-min", type=int, default=30); parser.add_argument("--limit", type=int); parser.add_argument("--format", choices=("txt", "json", "csv"), default="txt")
