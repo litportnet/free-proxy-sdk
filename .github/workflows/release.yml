@@ -95,7 +95,7 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.validate-manual-input.outputs.tag || github.sha }}
       - uses: actions/setup-node@v6
@@ -126,7 +126,7 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.validate-manual-input.outputs.tag || github.sha }}
       - uses: actions/setup-python@v6
@@ -155,7 +155,7 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with: { node-version: 24, registry-url: https://registry.npmjs.org, package-manager-cache: false }
       - run: npm install --global npm@11.5.1
@@ -170,7 +170,7 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with: { python-version: '3.9' }
       - working-directory: packages/python
