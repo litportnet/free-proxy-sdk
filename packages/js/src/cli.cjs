@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict'
 const sdk = require('./index.cjs')
 const flags = { source: 'source', protocol: 'protocol', country: 'country', anonymity: 'anonymity', https: 'https', 'max-latency-ms': 'maxLatencyMs', 'min-uptime7d': 'minUptime7d', 'min-checks7d': 'minChecks7d', 'checked-within-min': 'checkedWithinMin', limit: 'limit', format: 'format' }
