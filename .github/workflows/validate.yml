@@ -52,7 +52,7 @@ jobs:
         run: node scripts/generate-fields.mjs --check
       - name: Run cross-language contract test
         run: node scripts/contract-test.mjs
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: packages
           path: |
