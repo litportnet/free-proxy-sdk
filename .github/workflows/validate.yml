@@ -14,7 +14,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref || github.sha }}
       - uses: actions/setup-node@v7
@@ -35,7 +35,7 @@ jobs:
           mkdir -p /tmp/free-proxy-sdk-npm-install
           npm install --prefix /tmp/free-proxy-sdk-npm-install ../../artifacts/js/*.tgz
           node -e "require('/tmp/free-proxy-sdk-npm-install/node_modules/@litportnet/free-proxy-sdk')"
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.9'
       - name: Test, build, validate, and install Python package
@@ -52,7 +52,7 @@ jobs:
         run: node scripts/generate-fields.mjs --check
       - name: Run cross-language contract test
         run: node scripts/contract-test.mjs
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: packages
           path: |
