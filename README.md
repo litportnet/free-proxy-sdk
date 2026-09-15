@@ -1,6 +1,6 @@
 # Litport free proxy SDK
 
-Dependency-free JavaScript and Python clients for Litport's verified free-proxy snapshot.
+Dependency-free, typed JavaScript and Python clients plus CLIs to discover and filter Litport's verified HTTP, SOCKS4, and SOCKS5 proxy records by freshness, latency, and uptime.
 
 ```sh
 npm install @litportnet/free-proxy-sdk
@@ -9,27 +9,43 @@ pip install litportnet-free-proxy-sdk
 
 ```js
 import { pickBest, toProxyUrl } from '@litportnet/free-proxy-sdk'
-console.log((await pickBest(1)).map(toProxyUrl))
+
+const proxies = await pickBest(5, {
+  protocol: 'socks5',
+  maxLatencyMs: 500,
+  minUptime7d: 90,
+  checkedWithinMin: 30,
+})
+console.log(proxies.map(toProxyUrl))
 ```
 
 ```python
 from litportnet_free_proxy_sdk import pick_best, to_proxy_url
-print([to_proxy_url(proxy) for proxy in pick_best(1)])
+
+proxies = pick_best(5, {
+    "protocol": "socks5",
+    "max_latency_ms": 500,
+    "min_uptime_7d": 90,
+    "checked_within_min": 30,
+})
+print([to_proxy_url(proxy) for proxy in proxies])
 ```
 
-Both clients use `https://litport.net/api/free-proxy/snapshot?checkedWithinMin=1440` by default. They cache only in memory, revalidate with ETags, cap cache lifetime at 60 seconds, and apply a 30-minute local freshness check on every call. Select `source="github"` (or `{ source: 'github' }`) to use the [free-proxy-list data repository](https://github.com/litportnet/free-proxy-list) instead.
+## Automation
 
-The clients do not retry requests or return stale data after a failure. See the [API documentation](https://litport.net/docs/free-proxy-api) for source fields and [the data repository](https://github.com/litportnet/free-proxy-list) for how proxies are checked.
+The packages retrieve and normalize proxy records for selection in your automation. Filter by protocol, country, anonymity, HTTPS support, maximum latency, minimum seven-day uptime, minimum checks, and freshness; then use the returned records with the networking library you choose.
+
+The default source is `https://litport.net/api/free-proxy/snapshot?checkedWithinMin=1440`. Each client applies its own 30-minute `lastChecked` freshness filter by default (configurable from 1 to 1,440 minutes), caches in memory for at most 60 seconds, and revalidates with ETags. Use JavaScript `{ source: 'github' }`, Python `source="github"`, or CLI `--source github` for the optional [free-proxy-list dataset](https://github.com/litportnet/free-proxy-list).
 
 ## CLI
 
 ```sh
-npx @litportnet/free-proxy-sdk --protocol socks5 --country us --limit 20 --format txt
-litportnet-free-proxies --protocol socks5 --country us --limit 20 --format json
+npx --package @litportnet/free-proxy-sdk litportnet-free-proxies \
+  --protocol socks5 --country us --max-latency-ms 500 --limit 20 --format json
+litportnet-free-proxies \
+  --protocol socks5 --country us --max-latency-ms 500 --limit 20 --format csv
 ```
 
-The CLI supports `--source`, `--protocol`, `--country`, `--anonymity`, `--https`, `--max-latency-ms`, `--min-uptime7d`, `--min-checks7d`, `--checked-within-min`, `--limit`, and `--format txt|json|csv`. It exits 2 when no proxy matches and emits errors only to stderr.
+The CLI accepts `--source`, `--protocol`, `--country`, `--anonymity`, `--https`, `--max-latency-ms`, `--min-uptime7d`, `--min-checks7d`, `--checked-within-min`, `--limit`, and `--format txt|json|csv`. It exits `0` after writing matches, `2` when no records match, and `1` for validation or request errors.
 
-`withProxyAgent(proxy, ProxyAgentCtor)` accepts a caller-provided JavaScript agent constructor. Protocol compatibility is the caller's responsibility. Python exposes `to_requests_proxies(proxy)` and `to_httpx_proxy(proxy)` as dependency-free configuration helpers.
-
-This SDK requires Node.js 20+ or Python 3.9+. Contract mappings are in [spec/fields.json](spec/fields.json); version 1.0.0 requires the snapshot fields listed there.
+Read the package-specific guides for [JavaScript](packages/js/README.md) and [Python](packages/python/README.md). The [API documentation](https://litport.net/docs/free-proxy-api) describes the source fields, and the [data repository](https://github.com/litportnet/free-proxy-list) describes collection and checks. Contract mappings are in [spec/fields.json](spec/fields.json).
