@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "litportnet-free-proxy-sdk"
-version = "0.1.0"
+version = "0.1.1"
 description = "Dependency-free typed client and CLI to discover and filter verified HTTP, SOCKS4, and SOCKS5 proxies by freshness, latency, and uptime."
 readme = "README.md"
 requires-python = ">=3.9"
