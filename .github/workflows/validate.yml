@@ -50,6 +50,8 @@ jobs:
           /tmp/free-proxy-sdk-venv/bin/python -c 'import litportnet_free_proxy_sdk'
       - name: Check generated contract tables
         run: node scripts/generate-fields.mjs --check
+      - name: Check synchronized READMEs
+        run: node scripts/sync-readmes.mjs --check
       - name: Run cross-language contract test
         run: node scripts/contract-test.mjs
       - uses: actions/upload-artifact@v7

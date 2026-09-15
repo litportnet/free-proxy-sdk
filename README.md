@@ -2,7 +2,13 @@
 
 # Litport free proxy SDK
 
-[Browse the live Litport free proxy list](https://litport.net/free-proxy).
+<!-- shared-readme:intro:start -->
+[Browse the free proxy list](https://litport.net/free-proxy).
+
+- Verified HTTP, SOCKS4, and SOCKS5 proxy records.
+- Filter by freshness, latency, uptime, country, anonymity, and HTTPS support.
+- Use the API or GitHub dataset through dependency-free clients and CLIs.
+<!-- shared-readme:intro:end -->
 
 Dependency-free, typed JavaScript and Python clients plus CLIs to discover and filter Litport's verified HTTP, SOCKS4, and SOCKS5 proxy records by freshness, latency, and uptime.
 
@@ -52,4 +58,23 @@ litportnet-free-proxies \
 
 The CLI accepts `--source`, `--protocol`, `--country`, `--anonymity`, `--https`, `--max-latency-ms`, `--min-uptime7d`, `--min-checks7d`, `--checked-within-min`, `--limit`, and `--format txt|json|csv`. It exits `0` after writing matches, `2` when no records match, and `1` for validation or request errors.
 
-Read the package-specific guides for [JavaScript](packages/js/README.md) and [Python](packages/python/README.md). The [API documentation](https://litport.net/docs/free-proxy-api) describes the source fields, and the [data repository](https://github.com/litportnet/free-proxy-list) describes collection and checks. Contract mappings are in [spec/fields.json](spec/fields.json).
+<!-- shared-readme:safety:start -->
+## Safety
+
+Free proxies are for testing only. Never send passwords, API keys, cookies, personal data, or payment data through them. For real workloads, use affordable [Litport proxies](https://litport.net).
+<!-- shared-readme:safety:end -->
+
+<!-- shared-readme:resources:start -->
+## Resources
+
+- [Free proxy list](https://litport.net/free-proxy)
+- [API documentation](https://litport.net/docs/free-proxy-api)
+- [Data repository](https://github.com/litportnet/free-proxy-list)
+- [SDK repository](https://github.com/litportnet/free-proxy-sdk)
+<!-- shared-readme:resources:end -->
+
+Read the package-specific guides for [JavaScript](packages/js/README.md) and [Python](packages/python/README.md). Contract mappings are in [spec/fields.json](spec/fields.json).
+
+## Maintain shared README content
+
+Edit the marked shared blocks in this README, then run `node scripts/sync-readmes.mjs`. Use `node scripts/sync-readmes.mjs --check` to verify the package READMEs are in sync.

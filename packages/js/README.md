@@ -1,6 +1,16 @@
+<!-- shared-readme:banner:start -->
+[![Litport free proxies: live lists, API and SDKs](https://raw.githubusercontent.com/litportnet/free-proxy-sdk/main/assets/free-proxy-banner-static.png)](https://litport.net/free-proxy)
+<!-- shared-readme:banner:end -->
+
 # @litportnet/free-proxy-sdk
 
-[Browse the live Litport free proxy list](https://litport.net/free-proxy).
+<!-- shared-readme:intro:start -->
+[Browse the free proxy list](https://litport.net/free-proxy).
+
+- Verified HTTP, SOCKS4, and SOCKS5 proxy records.
+- Filter by freshness, latency, uptime, country, anonymity, and HTTPS support.
+- Use the API or GitHub dataset through dependency-free clients and CLIs.
+<!-- shared-readme:intro:end -->
 
 Dependency-free, typed Node.js 20+ client and CLI to discover and filter Litport's verified HTTP, SOCKS4, and SOCKS5 proxy records by freshness, latency, and uptime.
 
@@ -51,4 +61,17 @@ Pass `{ source: 'github' }` to `new Client(...)`, or `--source github` to the CL
 
 Responses are cached in memory, revalidated with ETags, and retained for at most 60 seconds. The client does not retry failed snapshot requests or return stale data after a failure.
 
-See the [API documentation](https://litport.net/docs/free-proxy-api), [data repository](https://github.com/litportnet/free-proxy-list), and [source repository](https://github.com/litportnet/free-proxy-sdk).
+<!-- shared-readme:safety:start -->
+## Safety
+
+Free proxies are for testing only. Never send passwords, API keys, cookies, personal data, or payment data through them. For real workloads, use affordable [Litport proxies](https://litport.net).
+<!-- shared-readme:safety:end -->
+
+<!-- shared-readme:resources:start -->
+## Resources
+
+- [Free proxy list](https://litport.net/free-proxy)
+- [API documentation](https://litport.net/docs/free-proxy-api)
+- [Data repository](https://github.com/litportnet/free-proxy-list)
+- [SDK repository](https://github.com/litportnet/free-proxy-sdk)
+<!-- shared-readme:resources:end -->
