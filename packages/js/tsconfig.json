@@ -1,0 +1,4 @@
+{
+  "compilerOptions": { "allowJs": false, "strict": true, "noEmit": true, "target": "ES2022", "module": "NodeNext", "moduleResolution": "NodeNext", "types": [] },
+  "include": ["test/types.test.ts"]
+}

@@ -1,0 +1,8 @@
+packages/js/dist/
+packages/js/node_modules/
+packages/js/*.tgz
+packages/python/dist/
+packages/python/*.egg-info/
+__pycache__/
+*.pyc
+.venv/

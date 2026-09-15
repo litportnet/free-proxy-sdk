@@ -1,0 +1,4 @@
+[
+  {"protocol":"http","ip":"8.8.8.8","port":8080,"url":"http://8.8.8.8:8080","country":"us","region":"California","city":"Mountain View","timezone":"America/Los_Angeles","asn":15169,"asnOrg":"Google LLC","anonymity":"elite","https":true,"latencyMs":120,"latencyMedianMs":110.5,"uptime24h":99.5,"uptime7d":98.2,"checks7d":72,"exitIp":"8.8.8.8","sourcesCount":3,"firstSeen":"2026-09-01T00:00:00.000Z","lastChecked":"2026-09-09T23:50:00.000Z"},
+  {"protocol":"socks5","ip":"1.1.1.1","port":1080,"url":"socks5://1.1.1.1:1080","country":"au","region":null,"city":null,"timezone":null,"asn":13335,"asnOrg":"Cloudflare","anonymity":"anonymous","https":null,"latencyMs":300,"latencyMedianMs":280,"uptime24h":90,"uptime7d":null,"checks7d":10,"exitIp":null,"sourcesCount":1,"firstSeen":"2026-09-02T00:00:00.000Z","lastChecked":"2026-09-09T23:45:00.000Z"}
+]

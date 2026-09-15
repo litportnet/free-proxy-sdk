@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "litportnet-free-proxy-sdk"
+version = "0.1.0"
+description = "Dependency-free typed client and CLI to discover and filter verified HTTP, SOCKS4, and SOCKS5 proxies by freshness, latency, and uptime."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Litport" }]
+keywords = ["proxy", "proxies", "free-proxy", "http-proxy", "socks4", "socks5", "proxy-list", "proxy-client", "cli", "automation", "ai-agents"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Internet"
+]
+
+[project.urls]
+Homepage = "https://litport.net/free-proxy"
+Documentation = "https://litport.net/docs/free-proxy-api"
+Issues = "https://github.com/litportnet/free-proxy-sdk/issues"
+Repository = "https://github.com/litportnet/free-proxy-sdk"
+
+[project.scripts]
+litportnet-free-proxies = "litportnet_free_proxy_sdk.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/litportnet_free_proxy_sdk"]

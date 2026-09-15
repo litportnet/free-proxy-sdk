@@ -1,0 +1,181 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      rehearsal:
+        description: 'Publish prerelease artifacts to npm next and TestPyPI'
+        required: false
+        default: false
+        type: boolean
+      publish_tag:
+        description: 'Existing js-v* or python-v* release tag to validate and republish after enabling RELEASE_PUBLISH_ENABLED'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+
+jobs:
+  validate-manual-input:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.validate.outputs.tag }}
+      package: ${{ steps.validate.outputs.package }}
+    steps:
+      - id: validate
+        env:
+          PUBLISH_TAG: ${{ inputs.publish_tag }}
+          REHEARSAL: ${{ inputs.rehearsal }}
+        run: |
+          if [ "$REHEARSAL" = true ] && [ -n "$PUBLISH_TAG" ]; then echo 'rehearsal and publish_tag cannot be combined' >&2; exit 1; fi
+          if [ -z "$PUBLISH_TAG" ]; then echo 'tag=' >> "$GITHUB_OUTPUT"; echo 'package=' >> "$GITHUB_OUTPUT"; exit 0; fi
+          case "$PUBLISH_TAG" in
+            js-v[0-9]*.[0-9]*.[0-9]*) package=js ;;
+            python-v[0-9]*.[0-9]*.[0-9]*) package=python ;;
+            *) echo 'publish_tag must be a js-v* or python-v* semver tag' >&2; exit 1 ;;
+          esac
+          if ! printf '%s' "$PUBLISH_TAG" | grep -Eq '^(js|python)-v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$'; then echo 'publish_tag must be a semver tag' >&2; exit 1; fi
+          echo "tag=$PUBLISH_TAG" >> "$GITHUB_OUTPUT"
+          echo "package=$package" >> "$GITHUB_OUTPUT"
+  release-please:
+    needs: validate-manual-input
+    runs-on: ubuntu-latest
+    outputs:
+      js_released: ${{ steps.release.outputs['packages/js--release_created'] }}
+      python_released: ${{ steps.release.outputs['packages/python--release_created'] }}
+      js_tag: ${{ steps.release.outputs['packages/js--tag_name'] }}
+      python_tag: ${{ steps.release.outputs['packages/python--tag_name'] }}
+      prs: ${{ steps.release.outputs.prs }}
+    steps:
+      - id: release
+        if: ${{ !inputs.rehearsal && inputs.publish_tag == '' }}
+        uses: googleapis/release-please-action@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+      - name: Dispatch CI for each release-please PR
+        if: ${{ steps.release.outputs.prs_created == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRS_CREATED: ${{ steps.release.outputs.prs }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          node --input-type=module <<'NODE'
+          const prs = JSON.parse(process.env.PRS_CREATED)
+          for (const pr of prs) {
+            const ref = pr.headBranch
+            if (!ref) continue
+            const response = await fetch(`https://api.github.com/repos/${process.env.REPOSITORY}/actions/workflows/ci.yml/dispatches`, {
+              method: 'POST',
+              headers: { authorization: `Bearer ${process.env.GITHUB_TOKEN}`, accept: 'application/vnd.github+json', 'content-type': 'application/json' },
+              body: JSON.stringify({ ref, inputs: { ref } }),
+            })
+            if (!response.ok) throw new Error(`CI dispatch for ${ref} failed: ${response.status}`)
+          }
+          NODE
+  validate-release:
+    needs: [release-please, validate-manual-input]
+    if: ${{ needs.release-please.outputs.js_released == 'true' || needs.release-please.outputs.python_released == 'true' || needs.validate-manual-input.outputs.tag != '' }}
+    uses: ./.github/workflows/validate.yml
+    with:
+      ref: ${{ needs.validate-manual-input.outputs.tag || github.sha }}
+  publish-npm:
+    needs: [release-please, validate-release, validate-manual-input]
+    if: ${{ (needs.release-please.outputs.js_released == 'true' || needs.validate-manual-input.outputs.package == 'js') && vars.RELEASE_PUBLISH_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.validate-manual-input.outputs.tag || github.sha }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - run: npm install --global npm@11.5.1
+      - working-directory: packages/js
+        run: |
+          npm ci
+          npm run build
+          npm publish --provenance --access public
+          mkdir -p ../../artifacts/js
+          npm pack --pack-destination ../../artifacts/js
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.release-please.outputs.js_tag || needs.validate-manual-input.outputs.tag }}
+        run: |
+          printf '%s' "$RELEASE_TAG" | grep -Eq '^js-v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$'
+          gh release upload "$RELEASE_TAG" artifacts/js/*.tgz
+  publish-pypi:
+    needs: [release-please, validate-release, validate-manual-input]
+    if: ${{ (needs.release-please.outputs.python_released == 'true' || needs.validate-manual-input.outputs.package == 'python') && vars.RELEASE_PUBLISH_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.validate-manual-input.outputs.tag || github.sha }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.9'
+      - working-directory: packages/python
+        run: python -m pip install --upgrade build && python -m build
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: packages/python/dist
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.release-please.outputs.python_tag || needs.validate-manual-input.outputs.tag }}
+        run: |
+          printf '%s' "$RELEASE_TAG" | grep -Eq '^python-v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$'
+          gh release upload "$RELEASE_TAG" packages/python/dist/*
+  validate-rehearsal:
+    if: ${{ inputs.rehearsal }}
+    uses: ./.github/workflows/validate.yml
+  rehearsal-npm:
+    needs: validate-rehearsal
+    if: ${{ inputs.rehearsal }}
+    runs-on: ubuntu-latest
+    environment: npm-next
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with: { node-version: 24, registry-url: https://registry.npmjs.org, package-manager-cache: false }
+      - run: npm install --global npm@11.5.1
+      - working-directory: packages/js
+        run: npm ci && npm run build && npm publish --provenance --access public --tag next
+  rehearsal-testpypi:
+    needs: validate-rehearsal
+    if: ${{ inputs.rehearsal }}
+    runs-on: ubuntu-latest
+    environment: testpypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with: { python-version: '3.9' }
+      - working-directory: packages/python
+        run: python -m pip install --upgrade build && python -m build
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: packages/python/dist
+          repository-url: https://test.pypi.org/legacy/

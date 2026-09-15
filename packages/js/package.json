@@ -1,0 +1,60 @@
+{
+  "name": "@litportnet/free-proxy-sdk",
+  "version": "1.0.0",
+  "description": "Dependency-free typed client and CLI to discover and filter verified HTTP, SOCKS4, and SOCKS5 proxies by freshness, latency, and uptime.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "bin": {
+    "litportnet-free-proxies": "./dist/cli.cjs"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/litportnet/free-proxy-sdk.git"
+  },
+  "homepage": "https://litport.net/free-proxy",
+  "bugs": {
+    "url": "https://github.com/litportnet/free-proxy-sdk/issues"
+  },
+  "keywords": [
+    "proxy",
+    "proxies",
+    "free-proxy",
+    "http-proxy",
+    "socks4",
+    "socks5",
+    "proxy-list",
+    "proxy-client",
+    "cli",
+    "automation",
+    "ai-agents"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "node ../../scripts/build-js.mjs",
+    "test": "node --test test/*.mjs",
+    "typecheck": "tsc --noEmit",
+    "prepack": "npm run build",
+    "pretypecheck": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0"
+  }
+}

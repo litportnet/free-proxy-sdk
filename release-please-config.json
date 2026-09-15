@@ -1,0 +1,6 @@
+{
+  "packages": {
+    "packages/js": { "release-type": "node", "component": "js", "include-component-in-tag": true },
+    "packages/python": { "release-type": "python", "component": "python", "include-component-in-tag": true }
+  }
+}
