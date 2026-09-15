@@ -1,0 +1,60 @@
+name: Validate
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: packages/js/package-lock.json
+      - name: Pin npm for trusted-publishing compatibility
+        run: npm install --global npm@11.5.1
+      - name: Install, check, test, and pack JavaScript
+        working-directory: packages/js
+        run: |
+          npm ci
+          npm run typecheck
+          npm test
+          mkdir -p ../../artifacts/js
+          npm pack --pack-destination ../../artifacts/js
+          mkdir -p /tmp/free-proxy-sdk-npm-install
+          npm install --prefix /tmp/free-proxy-sdk-npm-install ../../artifacts/js/*.tgz
+          node -e "require('/tmp/free-proxy-sdk-npm-install/node_modules/@litport/free-proxy-sdk')"
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.9'
+      - name: Test, build, validate, and install Python package
+        working-directory: packages/python
+        run: |
+          python -m unittest discover -s tests -v
+          python -m pip install --upgrade build twine
+          python -m build
+          twine check dist/*
+          python -m venv /tmp/free-proxy-sdk-venv
+          /tmp/free-proxy-sdk-venv/bin/pip install dist/*.whl
+          /tmp/free-proxy-sdk-venv/bin/python -c 'import litport_free_proxy_sdk'
+      - name: Check generated contract tables
+        run: node scripts/generate-fields.mjs --check
+      - name: Run cross-language contract test
+        run: node scripts/contract-test.mjs
+      - uses: actions/upload-artifact@v6
+        with:
+          name: packages
+          path: |
+            artifacts/js/*.tgz
+            packages/python/dist/*

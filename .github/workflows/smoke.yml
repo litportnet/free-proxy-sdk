@@ -1,0 +1,33 @@
+name: Live API smoke
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 5 * * *'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  smoke:
+    if: ${{ vars.LIVE_SMOKE_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with: { node-version: 24 }
+      - uses: actions/setup-python@v6
+        with: { python-version: '3.9' }
+      - name: Run both live CLIs
+        run: |
+          node scripts/build-js.mjs
+          node packages/js/dist/cli.cjs --limit 1 --format txt
+          PYTHONPATH=packages/python/src python -m litport_free_proxy_sdk.cli --limit 1 --format txt
+      - name: Open or update a deduplicated failure issue
+        if: ${{ failure() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ISSUE=$(gh issue list --state open --search 'Free proxy SDK smoke failed in:title' --json number --jq '.[0].number')
+          if [ -z "$ISSUE" ]; then gh issue create --title 'Free proxy SDK smoke failed' --body "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"; else gh issue comment "$ISSUE" --body "Still failing: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"; fi
