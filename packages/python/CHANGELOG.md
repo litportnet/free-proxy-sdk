@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/litportnet/free-proxy-sdk/compare/python-v0.1.1...python-v0.1.2) (2026-09-15)
+
+
+### Documentation
+
+* sync package README branding and safety guidance ([6ec17a6](https://github.com/litportnet/free-proxy-sdk/commit/6ec17a627938d429ec3b46e134f7fce96952fcc4))
+
 ## [0.1.1](https://github.com/litportnet/free-proxy-sdk/compare/python-v0.1.0...python-v0.1.1) (2026-09-15)
 
 
