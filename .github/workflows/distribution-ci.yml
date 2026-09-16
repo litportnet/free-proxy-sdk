@@ -24,13 +24,20 @@ jobs:
 
   rust:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain: ['1.88.0', stable]
+    env:
+      RUSTUP_TOOLCHAIN: ${{ matrix.toolchain }}
     steps:
       - uses: actions/checkout@v7
+      - name: Install supported Rust toolchain
+        run: rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal --component rustfmt
       - working-directory: packages/rust
         run: |
           cargo fmt --check
-          cargo check
-          cargo test
+          cargo check --locked
+          cargo test --locked
           cargo package --allow-dirty
 
   jsr:

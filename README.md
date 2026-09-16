@@ -62,6 +62,8 @@ print([to_proxy_url(proxy) for proxy in proxies])
 | Historical dataset | [huggingface](https://huggingface.co/datasets/litportnet/free-proxy-observations) |
 | Historical dataset | [kaggle](https://www.kaggle.com/datasets/litportnet/free-proxy-observations) |
 
+[Run the Kaggle analysis notebook](https://www.kaggle.com/code/litportnet/free-proxy-observations-analysis) to chart protocol, country and latency distributions.
+
 The datasets are dated historical observations; use the API for current records.
 
 ## Automation

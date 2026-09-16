@@ -33,7 +33,7 @@
     "homepage": "https://litport.net/free-proxy",
     "verifiedAt": "2026-09-16T20:10:05.939Z",
     "indexEvidence": "not checked",
-    "outboundRel": "not yet recorded"
+    "outboundRel": "none"
   },
   {
     "platform": "jsr",
@@ -99,8 +99,12 @@
     "platform": "kaggle",
     "artifact": "Analysis notebook",
     "owner": "litportnet",
-    "status": "blocked",
-    "reason": "Kaggle requires phone verification to make a notebook public (SaveKernel HTTP 403).",
-    "verifiedAt": "2026-09-16T20:10:05.939Z"
+    "version": "2",
+    "url": "https://www.kaggle.com/code/litportnet/free-proxy-observations-analysis",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T20:15:53.000Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "noreferrer nofollow"
   }
 ]

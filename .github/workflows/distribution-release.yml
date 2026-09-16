@@ -68,6 +68,10 @@ jobs:
       - name: Push immutable and latest tags
         if: ${{ steps.dockerhub.outputs.can_push == 'true' }}
         run: |
+          if docker manifest inspect litportnet/free-proxy-sdk:0.1.0 >/dev/null 2>&1; then
+            echo 'Version 0.1.0 already exists. Choose a new version before publishing.' >&2
+            exit 1
+          fi
           docker tag litportnet/free-proxy-sdk:smoke litportnet/free-proxy-sdk:0.1.0
           docker tag litportnet/free-proxy-sdk:smoke litportnet/free-proxy-sdk:latest
           docker push litportnet/free-proxy-sdk:0.1.0
