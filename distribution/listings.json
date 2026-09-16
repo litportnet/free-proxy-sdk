@@ -39,13 +39,20 @@
     "platform": "jsr",
     "artifact": "JavaScript / TypeScript SDK",
     "owner": "litportnet",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "url": "https://jsr.io/@litportnet/free-proxy-sdk",
     "status": "live",
     "homepage": "https://litport.net/free-proxy",
-    "verifiedAt": "2026-09-16T20:10:05.939Z",
+    "verifiedAt": "2026-09-16T20:28:08.921Z",
     "indexEvidence": "not checked",
-    "outboundRel": "nofollow"
+    "outboundRel": "nofollow",
+    "score": 100,
+    "documentedExportsPercent": 100,
+    "verifiedRuntimes": [
+      "Node.js 20",
+      "Node.js 24",
+      "Deno 2.9.6"
+    ]
   },
   {
     "platform": "docker",
