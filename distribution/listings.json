@@ -145,9 +145,12 @@
     "owner": "litportnet",
     "version": "0.1.0",
     "url": "https://www.nuget.org/packages/Litportnet.FreeProxy",
-    "status": "processing",
+    "status": "indexing",
     "homepage": "https://litport.net/free-proxy",
     "publicationRun": "https://github.com/litportnet/free-proxy-sdk/actions/runs/35155133990",
-    "note": "OIDC publication succeeded; public package page and download endpoint not yet available at verification time."
+    "note": "OIDC publication and public page verified. Direct NuGet package download available; default install/restore waits for registry indexing.",
+    "verifiedAt": "2026-09-16T22:03:12.463Z",
+    "indexEvidence": "NuGet displays not indexed yet; Google indexing not checked",
+    "outboundRel": "nofollow"
   }
 ]
