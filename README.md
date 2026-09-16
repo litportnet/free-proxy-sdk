@@ -46,6 +46,9 @@ print([to_proxy_url(proxy) for proxy in proxies])
 - [Go client](packages/go): standard-library module with context-aware requests.
 - [Rust client](packages/rust): typed blocking client using rustls HTTPS.
 - [JSR package](packages/jsr): native ESM JavaScript with TypeScript declarations.
+- [PHP client](packages/php): Composer-compatible API snapshot client.
+- [Ruby client](packages/ruby): standard-library snapshot client published on RubyGems.
+- [.NET client](packages/dotnet): typed asynchronous API snapshot client.
 - [Docker CLI](container): containerized JSON, CSV and text exports.
 - [Postman and historical datasets](distribution): ready-to-run API requests and dated observation exports.
 
@@ -53,6 +56,8 @@ print([to_proxy_url(proxy) for proxy in proxies])
 
 | Resource | Public listing |
 | --- | --- |
+| Ruby SDK | [RubyGems](https://rubygems.org/gems/litportnet-free-proxy-sdk) |
+| PHP Composer source | [GitHub](https://github.com/litportnet/free-proxy-php) |
 | Go SDK | [go](https://pkg.go.dev/github.com/litportnet/free-proxy-sdk/packages/go) |
 | Rust SDK | [crates.io](https://crates.io/crates/litportnet-free-proxy-sdk) |
 | Rust API reference | [docs.rs](https://docs.rs/litportnet-free-proxy-sdk/latest/litportnet_free_proxy_sdk/) |

@@ -113,5 +113,41 @@
     "verifiedAt": "2026-09-16T20:15:53.000Z",
     "indexEvidence": "not checked",
     "outboundRel": "noreferrer nofollow"
+  },
+  {
+    "platform": "rubygems",
+    "artifact": "Ruby SDK",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://rubygems.org/gems/litportnet-free-proxy-sdk",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T22:00:14.973Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "nofollow"
+  },
+  {
+    "platform": "github",
+    "artifact": "PHP Composer source",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://github.com/litportnet/free-proxy-php",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T22:00:14.973Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "not yet recorded",
+    "note": "Tagged Composer repository ready; initial Packagist submission remains an operator step."
+  },
+  {
+    "platform": "nuget",
+    "artifact": ".NET SDK",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://www.nuget.org/packages/Litportnet.FreeProxy",
+    "status": "processing",
+    "homepage": "https://litport.net/free-proxy",
+    "publicationRun": "https://github.com/litportnet/free-proxy-sdk/actions/runs/35155133990",
+    "note": "OIDC publication succeeded; public package page and download endpoint not yet available at verification time."
   }
 ]
