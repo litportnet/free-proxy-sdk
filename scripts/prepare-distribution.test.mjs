@@ -38,7 +38,7 @@ test('prepares isolated Hugging Face, Kaggle dataset, and notebook uploads', asy
     assert.deepEqual(data, rows); assert.match(csv, /"A, ""quoted"""/); assert.match(card, /Historical/)
     assert.equal(provenance.source_commit, sourceCommit); assert.equal(provenance.row_count, 2)
     assert.equal(notebook.nbformat, 4); assert.match(notebook.cells[1].source.join(''), /DATASET_DIR/)
-    assert.equal(metadata.id, 'litportnet/free-proxy-observations'); assert.match(metadata.description, /https:\/\/litport\.net\/free-proxy/); assert.deepEqual(metadata.keywords, ['proxy', 'networking', 'internet'])
+    assert.equal(metadata.id, 'litportnet/free-proxy-observations'); assert.match(metadata.description, /https:\/\/litport\.net\/free-proxy/); assert.deepEqual(metadata.keywords, ['internet'])
     assert.deepEqual(kernel.dataset_sources, ['litportnet/free-proxy-observations']); assert.equal(kernel.enable_internet, 'false')
   } finally { await rm(root, { recursive: true, force: true }) }
 })

@@ -70,6 +70,12 @@ export function validateSource({ rows, stats }) {
 const datasetCard = ({ sourceCommit, observedAt, count }) => `---
 license: cc0-1.0
 pretty_name: Litport free proxy observations
+tags:
+- networking
+- proxies
+- http
+- socks5
+- internet
 size_categories:
 - ${sizeCategory(count)}
 ---
@@ -116,8 +122,8 @@ export function prepare({ sourceDir, output, owner, sourceCommit, licenseData })
   const provenance = { source_repository: 'https://github.com/litportnet/free-proxy-list', source_commit: sourceCommit.toLowerCase(), source_sha256: allJsonSha256, observed_at: observedAt, row_count: rows.length, all_json_sha256: allJsonSha256, stats_json_sha256: sha256(statsText), license: 'CC0-1.0', snapshot_kind: 'historical' }
   const shared = { 'all.json': `${JSON.stringify(rows, null, 2)}\n`, 'all.csv': csv(rows), 'schema.json': `${JSON.stringify(schema, null, 2)}\n`, 'LICENSE': license, 'provenance.json': `${JSON.stringify(provenance, null, 2)}\n` }
   const datasetReadme = datasetCard({ sourceCommit, observedAt, count: rows.length })
-  const kaggleMetadata = { id: `${owner}/free-proxy-observations`, title: 'Litport free proxy observations', subtitle: 'Historical public proxy observations', description: `Historical snapshot observed at ${observedAt}. This is not a live feed. Browse the [Litport free proxy list](https://litport.net/free-proxy) and read the [free-proxy API documentation](https://litport.net/docs/free-proxy-api). Testing only: never send credentials, personal data, payment data, or production traffic through free proxies.`, licenses: [{ name: 'CC0-1.0' }], keywords: ['proxy', 'networking', 'internet'] }
-  const kernelMetadata = { id: `${owner}/free-proxy-observations-analysis`, title: 'Litport free proxy observations analysis', code_file: 'analysis.ipynb', language: 'python', kernel_type: 'notebook', is_private: 'false', enable_gpu: 'false', enable_internet: 'false', dataset_sources: [`${owner}/free-proxy-observations`], keywords: ['proxy', 'networking', 'data-analysis'] }
+  const kaggleMetadata = { id: `${owner}/free-proxy-observations`, title: 'Litport free proxy observations', subtitle: 'Historical public proxy observations', description: `Historical snapshot observed at ${observedAt}. This is not a live feed. Browse the [Litport free proxy list](https://litport.net/free-proxy) and read the [free-proxy API documentation](https://litport.net/docs/free-proxy-api). Testing only: never send credentials, personal data, payment data, or production traffic through free proxies.`, licenses: [{ name: 'CC0-1.0' }], keywords: ['internet'] }
+  const kernelMetadata = { id: `${owner}/free-proxy-observations-analysis`, title: 'Free proxy observations analysis', code_file: 'analysis.ipynb', language: 'python', kernel_type: 'notebook', is_private: 'false', enable_gpu: 'false', enable_internet: 'false', dataset_sources: [`${owner}/free-proxy-observations`], keywords: ['data-analysis'] }
   // Every input is parsed and validated before this first output mutation.
   mkdirSync(outputDir, { recursive: true })
   for (const folder of ['huggingface', 'kaggle-dataset']) for (const [path, content] of Object.entries(shared)) write(outputDir, join(folder, path), content)

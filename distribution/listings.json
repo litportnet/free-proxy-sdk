@@ -1,0 +1,106 @@
+[
+  {
+    "platform": "go",
+    "artifact": "Go SDK",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://pkg.go.dev/github.com/litportnet/free-proxy-sdk/packages/go",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T20:10:05.939Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "nofollow"
+  },
+  {
+    "platform": "crates.io",
+    "artifact": "Rust SDK",
+    "owner": "litportnet",
+    "version": "0.1.1",
+    "url": "https://crates.io/crates/litportnet-free-proxy-sdk",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T20:10:05.939Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "not yet recorded"
+  },
+  {
+    "platform": "docs.rs",
+    "artifact": "Rust API reference",
+    "owner": "litportnet",
+    "version": "0.1.1",
+    "url": "https://docs.rs/litportnet-free-proxy-sdk/latest/litportnet_free_proxy_sdk/",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T20:10:05.939Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "not yet recorded"
+  },
+  {
+    "platform": "jsr",
+    "artifact": "JavaScript / TypeScript SDK",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://jsr.io/@litportnet/free-proxy-sdk",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T20:10:05.939Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "nofollow"
+  },
+  {
+    "platform": "docker",
+    "artifact": "Container CLI",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://hub.docker.com/r/litportnet/free-proxy-sdk",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T20:10:05.939Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "nofollow noopener"
+  },
+  {
+    "platform": "postman",
+    "artifact": "API collection",
+    "owner": "litportnet",
+    "version": null,
+    "url": "https://www.postman.com/litportnet/litport-free-proxy-api/collection/3k436yf/litport-free-proxy-public-api",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T20:10:05.939Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "noreferrer noopener nofollow"
+  },
+  {
+    "platform": "huggingface",
+    "artifact": "Historical dataset",
+    "owner": "litportnet",
+    "version": "767e815b458635e65e58d164838926e341b8d646",
+    "url": "https://huggingface.co/datasets/litportnet/free-proxy-observations",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T20:10:05.939Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "nofollow"
+  },
+  {
+    "platform": "kaggle",
+    "artifact": "Historical dataset",
+    "owner": "litportnet",
+    "version": "767e815b458635e65e58d164838926e341b8d646",
+    "url": "https://www.kaggle.com/datasets/litportnet/free-proxy-observations",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T20:10:05.939Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "noreferrer nofollow"
+  },
+  {
+    "platform": "kaggle",
+    "artifact": "Analysis notebook",
+    "owner": "litportnet",
+    "status": "blocked",
+    "reason": "Kaggle requires phone verification to make a notebook public (SaveKernel HTTP 403).",
+    "verifiedAt": "2026-09-16T20:10:05.939Z"
+  }
+]

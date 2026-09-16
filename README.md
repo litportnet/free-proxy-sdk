@@ -49,6 +49,21 @@ print([to_proxy_url(proxy) for proxy in proxies])
 - [Docker CLI](container): containerized JSON, CSV and text exports.
 - [Postman and historical datasets](distribution): ready-to-run API requests and dated observation exports.
 
+## Published packages and tools
+
+| Resource | Public listing |
+| --- | --- |
+| Go SDK | [go](https://pkg.go.dev/github.com/litportnet/free-proxy-sdk/packages/go) |
+| Rust SDK | [crates.io](https://crates.io/crates/litportnet-free-proxy-sdk) |
+| Rust API reference | [docs.rs](https://docs.rs/litportnet-free-proxy-sdk/latest/litportnet_free_proxy_sdk/) |
+| JavaScript / TypeScript SDK | [jsr](https://jsr.io/@litportnet/free-proxy-sdk) |
+| Container CLI | [docker](https://hub.docker.com/r/litportnet/free-proxy-sdk) |
+| API collection | [postman](https://www.postman.com/litportnet/litport-free-proxy-api/collection/3k436yf/litport-free-proxy-public-api) |
+| Historical dataset | [huggingface](https://huggingface.co/datasets/litportnet/free-proxy-observations) |
+| Historical dataset | [kaggle](https://www.kaggle.com/datasets/litportnet/free-proxy-observations) |
+
+The datasets are dated historical observations; use the API for current records.
+
 ## Automation
 
 The packages retrieve and normalize proxy records for selection in your automation. Filter by protocol, country, anonymity, HTTPS support, maximum latency, minimum seven-day uptime, minimum checks, and freshness; then use the returned records with the networking library you choose.

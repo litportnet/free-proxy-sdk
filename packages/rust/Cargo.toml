@@ -1,8 +1,8 @@
 [package]
 name = "litportnet-free-proxy-sdk"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
-rust-version = "1.85"
+rust-version = "1.88"
 description = "Typed Rust client for Litport's verified free-proxy snapshots."
 license = "MIT"
 repository = "https://github.com/litportnet/free-proxy-sdk"
