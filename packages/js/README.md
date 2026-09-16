@@ -9,7 +9,7 @@
 
 - Verified HTTP, SOCKS4, and SOCKS5 proxy records.
 - Filter by freshness, latency, uptime, country, anonymity, and HTTPS support.
-- Use the API or GitHub dataset through dependency-free clients and CLIs.
+- Use the API or GitHub dataset through typed clients and CLIs.
 <!-- shared-readme:intro:end -->
 
 Dependency-free, typed Node.js 20+ client and CLI to discover and filter Litport's verified HTTP, SOCKS4, and SOCKS5 proxy records by freshness, latency, and uptime.

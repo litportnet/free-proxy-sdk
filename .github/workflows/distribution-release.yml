@@ -1,0 +1,120 @@
+name: Publish distribution targets
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Distribution target to publish'
+        required: true
+        type: choice
+        options: [jsr, docker, huggingface]
+
+permissions:
+  contents: read
+
+jobs:
+  publish-jsr:
+    if: ${{ github.ref == 'refs/heads/main' && inputs.target == 'jsr' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Validate generated JSR package
+        run: node scripts/test-jsr.mjs
+      - name: Publish JSR package
+        working-directory: packages/jsr
+        run: npx jsr publish
+
+  publish-docker:
+    if: ${{ github.ref == 'refs/heads/main' && inputs.target == 'docker' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build and smoke-test CLI image
+        run: |
+          docker build --tag litportnet/free-proxy-sdk:smoke .
+          set +e
+          docker run --rm litportnet/free-proxy-sdk:smoke --help > /tmp/free-proxy-cli-help 2>&1
+          status=$?
+          set -e
+          test "$status" -eq 1
+          grep -F 'Unknown option --help' /tmp/free-proxy-cli-help
+      - name: Export image for manual publication fallback
+        run: docker save litportnet/free-proxy-sdk:smoke | gzip > "$RUNNER_TEMP/free-proxy-sdk-image.tar.gz"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: free-proxy-sdk-image
+          path: ${{ runner.temp }}/free-proxy-sdk-image.tar.gz
+          if-no-files-found: error
+      - name: Detect Docker Hub credentials
+        id: dockerhub
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          if [ -n "$DOCKERHUB_USERNAME" ] && [ -n "$DOCKERHUB_TOKEN" ]; then echo 'can_push=true' >> "$GITHUB_OUTPUT"; else echo 'can_push=false' >> "$GITHUB_OUTPUT"; fi
+      - uses: docker/login-action@v3
+        if: ${{ steps.dockerhub.outputs.can_push == 'true' }}
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push immutable and latest tags
+        if: ${{ steps.dockerhub.outputs.can_push == 'true' }}
+        run: |
+          docker tag litportnet/free-proxy-sdk:smoke litportnet/free-proxy-sdk:0.1.0
+          docker tag litportnet/free-proxy-sdk:smoke litportnet/free-proxy-sdk:latest
+          docker push litportnet/free-proxy-sdk:0.1.0
+          docker push litportnet/free-proxy-sdk:latest
+
+  publish-huggingface:
+    if: ${{ github.ref == 'refs/heads/main' && inputs.target == 'huggingface' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Download one immutable free-proxy-list snapshot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          snapshot_sha=$(gh api repos/litportnet/free-proxy-list/commits/main --jq .sha)
+          printf '%s' "$snapshot_sha" | grep -Eq '^[0-9a-f]{40}$'
+          source_dir="$RUNNER_TEMP/free-proxy-list-$snapshot_sha"
+          mkdir "$source_dir"
+          for file in proxies/all.json proxies/stats.json LICENSE-DATA; do
+            curl --fail --silent --show-error --location \
+              "https://raw.githubusercontent.com/litportnet/free-proxy-list/$snapshot_sha/$file" \
+              --output "$source_dir/${file##*/}"
+          done
+          echo "SOURCE_DIR=$source_dir" >> "$GITHUB_ENV"
+          echo "SNAPSHOT_SHA=$snapshot_sha" >> "$GITHUB_ENV"
+      - name: Prepare historical dataset export
+        run: |
+          node scripts/prepare-distribution.mjs \
+            --source-dir "$SOURCE_DIR" \
+            --output "$RUNNER_TEMP/free-proxy-export" \
+            --owner litportnet \
+            --source-commit "$SNAPSHOT_SHA"
+      - name: Install Hugging Face Hub CLI
+        run: python -m pip install 'huggingface_hub>=1.19.0'
+      - name: Upload dataset with a short-lived OIDC token
+        env:
+          HF_OIDC_RESOURCE: datasets/litportnet/free-proxy-observations
+        run: |
+          hf upload litportnet/free-proxy-observations "$RUNNER_TEMP/free-proxy-export/huggingface" . \
+            --repo-type dataset \
+            --commit-message "Historical snapshot $SNAPSHOT_SHA"

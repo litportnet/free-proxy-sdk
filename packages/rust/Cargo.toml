@@ -1,0 +1,21 @@
+[package]
+name = "litportnet-free-proxy-sdk"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+description = "Typed Rust client for Litport's verified free-proxy snapshots."
+license = "MIT"
+repository = "https://github.com/litportnet/free-proxy-sdk"
+homepage = "https://litport.net/free-proxy"
+documentation = "https://docs.rs/litportnet-free-proxy-sdk"
+readme = "README.md"
+keywords = ["proxy", "free-proxy", "socks5", "http-proxy", "client"]
+categories = ["api-bindings", "network-programming"]
+include = ["src/**", "tests/**", "Cargo.toml", "Cargo.lock", "README.md", "LICENSE", "CHANGELOG.md"]
+
+[dependencies]
+chrono = { version = "0.4.42", default-features = false, features = ["clock", "std"] }
+reqwest = { version = "0.12.24", default-features = false, features = ["blocking", "json", "rustls-tls"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+thiserror = "2.0.17"

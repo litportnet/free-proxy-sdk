@@ -1,0 +1,148 @@
+{
+  "info": {
+    "_postman_id": "6f916a52-8ab3-4ee0-a75f-8ac60bb5497f",
+    "name": "Litport free proxy public API",
+    "description": "Public, unauthenticated requests for the [Litport free proxy list](https://litport.net/free-proxy), [API documentation](https://litport.net/docs/free-proxy-api), and [free-proxy-list data repository](https://github.com/litportnet/free-proxy-list). Free proxies are for testing only; never send credentials, personal data, payment data, or production traffic through them.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://litport.net",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Filtered public proxies (JSON)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/free-proxy?country=us&protocol=http&limit=20"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns success', () => pm.response.to.have.status(200));",
+              "pm.test('returns a JSON array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+            ]
+          }
+        }
+      ],
+      "response": [
+        {
+          "name": "Example",
+          "originalRequest": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/free-proxy?country=us&protocol=http&limit=20"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "[{\"protocol\":\"http\",\"host\":\"203.0.113.10\",\"port\":8080,\"geoCountry\":\"US\"}]"
+        }
+      ]
+    },
+    {
+      "name": "Consistent snapshot",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/free-proxy/snapshot?checkedWithinMin=30"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns success', () => pm.response.to.have.status(200));",
+              "pm.test('has snapshot envelope', () => { const body = pm.response.json(); pm.expect(body).to.include.all.keys('generatedAt', 'count', 'proxies'); pm.expect(body.proxies).to.be.an('array'); });"
+            ]
+          }
+        }
+      ],
+      "response": [
+        {
+          "name": "Example",
+          "originalRequest": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/free-proxy/snapshot?checkedWithinMin=30"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"generatedAt\": \"2026-01-01T00:00:00.000Z\",\n  \"count\": 1,\n  \"proxies\": [\n    {\n      \"protocol\": \"socks5\",\n      \"host\": \"198.51.100.20\",\n      \"port\": 1080\n    }\n  ],\n  \"totalCount\": 1,\n  \"truncated\": false,\n  \"maxAgeMin\": 30\n}"
+        }
+      ]
+    },
+    {
+      "name": "CSV export",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/free-proxy?format=csv&limit=20"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns success', () => pm.response.to.have.status(200));",
+              "pm.test('looks like CSV', () => pm.expect(pm.response.text()).to.include(','));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TXT export",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/free-proxy?format=txt&limit=20"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns success', () => pm.response.to.have.status(200));",
+              "pm.test('returns text', () => pm.expect(pm.response.text()).to.be.a('string'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "SOCKS5 filter",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/free-proxy?protocol=socks5&limit=20"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns success', () => pm.response.to.have.status(200));",
+              "pm.test('only SOCKS5 records', () => pm.response.json().forEach(row => pm.expect(row.protocol).to.eql('socks5')));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

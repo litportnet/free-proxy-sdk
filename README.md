@@ -7,7 +7,7 @@
 
 - Verified HTTP, SOCKS4, and SOCKS5 proxy records.
 - Filter by freshness, latency, uptime, country, anonymity, and HTTPS support.
-- Use the API or GitHub dataset through dependency-free clients and CLIs.
+- Use the API or GitHub dataset through typed clients and CLIs.
 <!-- shared-readme:intro:end -->
 
 Dependency-free, typed JavaScript and Python clients plus CLIs to discover and filter Litport's verified HTTP, SOCKS4, and SOCKS5 proxy records by freshness, latency, and uptime.
@@ -40,6 +40,14 @@ proxies = pick_best(5, {
 })
 print([to_proxy_url(proxy) for proxy in proxies])
 ```
+
+## More runtimes and tools
+
+- [Go client](packages/go): standard-library module with context-aware requests.
+- [Rust client](packages/rust): typed blocking client using rustls HTTPS.
+- [JSR package](packages/jsr): native ESM JavaScript with TypeScript declarations.
+- [Docker CLI](container): containerized JSON, CSV and text exports.
+- [Postman and historical datasets](distribution): ready-to-run API requests and dated observation exports.
 
 ## Automation
 

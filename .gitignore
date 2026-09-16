@@ -6,3 +6,5 @@ packages/python/*.egg-info/
 __pycache__/
 *.pyc
 .venv/
+
+packages/rust/target/

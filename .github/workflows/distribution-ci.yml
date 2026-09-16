@@ -1,0 +1,77 @@
+name: Distribution CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+      - working-directory: packages/go
+        run: |
+          go vet ./...
+          go test ./...
+
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - working-directory: packages/rust
+        run: |
+          cargo fmt --check
+          cargo check
+          cargo test
+          cargo package --allow-dirty
+
+  jsr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: node scripts/build-jsr.mjs
+      - run: node scripts/test-jsr.mjs
+      - name: Verify JSR package archive
+        working-directory: packages/jsr
+        run: npx jsr publish --dry-run --allow-dirty
+
+  dataset-generator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: node --test scripts/prepare-distribution.test.mjs
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build image and exercise the CLI entrypoint
+        run: |
+          docker build --tag litportnet/free-proxy-sdk:ci .
+          set +e
+          docker run --rm litportnet/free-proxy-sdk:ci --help > /tmp/free-proxy-cli-help 2>&1
+          status=$?
+          set -e
+          test "$status" -eq 1
+          grep -F 'Unknown option --help' /tmp/free-proxy-cli-help
+      - name: Export image artifact
+        run: docker save litportnet/free-proxy-sdk:ci | gzip > "$RUNNER_TEMP/free-proxy-sdk-image.tar.gz"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: free-proxy-sdk-image
+          path: ${{ runner.temp }}/free-proxy-sdk-image.tar.gz
+          if-no-files-found: error

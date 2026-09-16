@@ -1,0 +1,14 @@
+**
+!Dockerfile
+!.dockerignore
+!scripts/
+!scripts/build-js.mjs
+!packages/
+!packages/js/
+!packages/js/package.json
+!packages/js/package-lock.json
+!packages/js/src/
+!packages/js/src/cli.cjs
+!packages/js/src/fields.generated.cjs
+!packages/js/src/index.cjs
+!packages/js/src/index.d.ts

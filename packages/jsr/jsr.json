@@ -1,0 +1,17 @@
+{
+  "name": "@litportnet/free-proxy-sdk",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./mod.js"
+  },
+  "publish": {
+    "include": [
+      "jsr.json",
+      "mod.js",
+      "mod.d.ts",
+      "fields.generated.js",
+      "README.md",
+      "LICENSE"
+    ]
+  }
+}
