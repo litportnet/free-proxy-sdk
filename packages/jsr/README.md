@@ -4,6 +4,20 @@
 
 Use `@litportnet/free-proxy-sdk` to retrieve and filter the verified [Litport free proxy list](https://litport.net/free-proxy) in Deno or other JSR-compatible runtimes.
 
+## Install
+
+```sh
+# Deno
+deno add jsr:@litportnet/free-proxy-sdk
+
+# Node.js
+npx jsr add @litportnet/free-proxy-sdk
+```
+
+Tested with Node.js 20 and 24, and Deno 2.9.6. Runtime checks exercise native fetch, both snapshot formats, filters, caching, HTTP failures and request timeouts. Browser, Bun and Cloudflare Workers compatibility has not been verified.
+
+## Select proxies
+
 ```ts
 import { pickBest, toProxyUrl } from '@litportnet/free-proxy-sdk'
 

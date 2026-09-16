@@ -49,6 +49,12 @@ jobs:
           node-version: 24
       - run: node scripts/build-jsr.mjs
       - run: node scripts/test-jsr.mjs
+      - name: Verify Node.js and Deno native fetch compatibility
+        run: |
+          node scripts/test-jsr-runtimes.mjs
+          npx --yes node@20 scripts/test-jsr-runtimes.mjs
+          npx --yes deno@2.9.6 doc --lint packages/jsr/mod.js
+          npx --yes deno@2.9.6 run --allow-read --allow-net=127.0.0.1 scripts/test-jsr-runtimes.mjs
       - name: Verify JSR package archive
         working-directory: packages/jsr
         run: npx jsr publish --dry-run --allow-dirty
