@@ -8,3 +8,11 @@ __pycache__/
 .venv/
 
 packages/rust/target/
+
+packages/php/vendor/
+packages/php/composer.lock
+packages/ruby/*.gem
+packages/ruby/.bundle/
+packages/dotnet/**/bin/
+packages/dotnet/**/obj/
+packages/dotnet/**/*.nupkg
