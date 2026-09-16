@@ -1,0 +1,9 @@
+{
+  "generatedAt": "2026-09-10T00:00:00.000Z",
+  "count": 2,
+  "maxAgeMin": 30,
+  "proxies": [
+    {"protocol":"http","host":"8.8.8.8","port":8080,"externalIp":"8.8.8.8","geoCountry":"US","geoRegion":"California","geoCity":"Mountain View","geoTimezone":"America/Los_Angeles","asn":"AS15169","asnOrgName":"Google LLC","anonymity":"elite","https":true,"responseTimeMs":120.4,"responseTimeMedianMs":110.5,"uptime24h":99.5,"uptime7d":98.2,"checks7d":72,"sourcesCount":3,"createdAt":"2026-09-01T00:00:00.000Z","pingAt":"2026-09-09T23:50:00.000Z"},
+    {"protocol":"socks5","host":"1.1.1.1","port":1080,"externalIp":null,"geoCountry":"AU","geoRegion":null,"geoCity":null,"geoTimezone":null,"asn":13335,"asnOrgName":"Cloudflare","anonymity":"anonymous","https":null,"responseTimeMs":300,"responseTimeMedianMs":280,"uptime24h":90,"uptime7d":55,"checks7d":10,"sourcesCount":1,"createdAt":"2026-09-02T00:00:00.000Z","pingAt":"2026-09-09T23:45:00.000Z"}
+  ]
+}

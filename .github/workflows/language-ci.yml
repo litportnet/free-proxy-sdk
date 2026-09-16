@@ -1,0 +1,38 @@
+name: Additional language package checks
+on:
+  push:
+    branches: [main]
+    paths: ['packages/php/**', 'packages/ruby/**', 'packages/dotnet/**', '.github/workflows/language-*.yml', 'scripts/sync-php-repository.mjs']
+  pull_request:
+    paths: ['packages/php/**', 'packages/ruby/**', 'packages/dotnet/**', '.github/workflows/language-*.yml', 'scripts/sync-php-repository.mjs']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  php:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+      - run: composer validate --strict && composer install --no-interaction && composer test
+        working-directory: packages/php
+  ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+      - run: ruby -Ilib test/client_test.rb && gem build litportnet-free-proxy-sdk.gemspec
+        working-directory: packages/ruby
+  dotnet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet run --project packages/dotnet/tests/Litportnet.FreeProxy.Tests && dotnet pack packages/dotnet/src/Litportnet.FreeProxy -c Release

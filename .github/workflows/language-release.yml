@@ -1,0 +1,102 @@
+name: Publish additional language packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Package to publish after tests pass
+        required: true
+        type: choice
+        options: [ruby, nuget, php]
+      version:
+        description: Exact package version (without v)
+        required: true
+        default: '0.1.0'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: language-release-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  ruby:
+    if: github.ref == 'refs/heads/main' && inputs.target == 'ruby'
+    runs-on: ubuntu-latest
+    environment: rubygems
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+      - name: Test and build
+        working-directory: packages/ruby
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          ruby -Ilib test/client_test.rb
+          ruby -e 's = Gem::Specification.load("litportnet-free-proxy-sdk.gemspec"); abort "Version mismatch" unless s.version.to_s == ENV.fetch("RELEASE_VERSION")'
+          gem build litportnet-free-proxy-sdk.gemspec
+          gem install --local --no-document litportnet-free-proxy-sdk-*.gem
+          ruby -e 'require "litportnet/free_proxy_sdk"; abort "Missing client" unless Litportnet::FreeProxySdk::Client'
+      - uses: rubygems/configure-rubygems-credentials@2a7221c7c44c30ebc68eda38fa25c60b918245c7
+      - name: Publish gem
+        working-directory: packages/ruby
+        run: gem push litportnet-free-proxy-sdk-*.gem
+
+  nuget:
+    if: github.ref == 'refs/heads/main' && inputs.target == 'nuget'
+    runs-on: ubuntu-latest
+    environment: nuget
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+      - name: Test and pack
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          dotnet run --project packages/dotnet/tests/Litportnet.FreeProxy.Tests
+          dotnet pack packages/dotnet/src/Litportnet.FreeProxy -c Release -o "$RUNNER_TEMP/packages"
+          test -f "$RUNNER_TEMP/packages/Litportnet.FreeProxy.$RELEASE_VERSION.nupkg"
+      - uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841
+        id: login
+        with:
+          user: litportnet
+      - name: Publish NuGet package
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push "$RUNNER_TEMP"/packages/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
+
+  php:
+    if: github.ref == 'refs/heads/main' && inputs.target == 'php'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Test package
+        working-directory: packages/php
+        run: |
+          composer validate --strict
+          composer install --no-interaction
+          composer test
+      - name: Publish split repository and immutable tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.PHP_REPOSITORY_TOKEN }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: node scripts/sync-php-repository.mjs --version "$RELEASE_VERSION"

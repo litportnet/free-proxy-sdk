@@ -1,0 +1,17 @@
+{
+  "name": "litportnet/free-proxy-sdk",
+  "description": "Dependency-free PHP client for Litport free-proxy snapshots.",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://litport.net/free-proxy",
+  "keywords": ["proxy", "free-proxy", "http-proxy", "socks4", "socks5", "proxy-list"],
+  "require": { "php": ">=8.2" },
+  "autoload": { "psr-4": { "Litportnet\\FreeProxy\\": "src/" } },
+  "autoload-dev": { "psr-4": { "Litportnet\\FreeProxy\\Tests\\": "tests/" } },
+  "scripts": { "test": "php -d zend.assertions=1 -d assert.exception=1 tests/client_test.php" },
+  "support": {
+    "docs": "https://litport.net/docs/free-proxy-api",
+    "source": "https://github.com/litportnet/free-proxy-php",
+    "issues": "https://github.com/litportnet/free-proxy-php/issues"
+  }
+}

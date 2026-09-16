@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>Litportnet.FreeProxy</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Litport</Authors>
+    <Description>Dependency-free .NET client for Litport free-proxy snapshots.</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>proxy;free-proxy;http-proxy;socks4;socks5;proxy-list</PackageTags>
+    <PackageProjectUrl>https://litport.net/free-proxy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/litportnet/free-proxy-sdk</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup><None Include="../../README.md" Pack="true" PackagePath="\" /><None Include="../../LICENSE" Pack="true" PackagePath="\" /></ItemGroup>
+</Project>
