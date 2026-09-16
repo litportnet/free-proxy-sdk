@@ -58,6 +58,7 @@ print([to_proxy_url(proxy) for proxy in proxies])
 | --- | --- |
 | .NET SDK | [NuGet](https://www.nuget.org/packages/Litportnet.FreeProxy) |
 | Ruby SDK | [RubyGems](https://rubygems.org/gems/litportnet-free-proxy-sdk) |
+| PHP SDK | [Packagist](https://packagist.org/packages/litportnet/free-proxy-sdk) |
 | PHP Composer source | [GitHub](https://github.com/litportnet/free-proxy-php) |
 | Go SDK | [go](https://pkg.go.dev/github.com/litportnet/free-proxy-sdk/packages/go) |
 | Rust SDK | [crates.io](https://crates.io/crates/litportnet-free-proxy-sdk) |

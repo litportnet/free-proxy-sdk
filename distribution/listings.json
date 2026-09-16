@@ -118,13 +118,14 @@
     "platform": "rubygems",
     "artifact": "Ruby SDK",
     "owner": "litportnet",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "url": "https://rubygems.org/gems/litportnet-free-proxy-sdk",
     "status": "live",
     "homepage": "https://litport.net/free-proxy",
-    "verifiedAt": "2026-09-16T22:00:14.973Z",
+    "verifiedAt": "2026-09-16T22:21:28.702Z",
     "indexEvidence": "not checked",
-    "outboundRel": "nofollow"
+    "outboundRel": "none (description); nofollow (sidebar)",
+    "note": "RDoc headings, feature list and inline Litport links verified on the version page."
   },
   {
     "platform": "github",
@@ -137,7 +138,7 @@
     "verifiedAt": "2026-09-16T22:00:14.973Z",
     "indexEvidence": "not checked",
     "outboundRel": "not yet recorded",
-    "note": "Tagged Composer repository ready; initial Packagist submission remains an operator step."
+    "note": "Tagged Composer repository; Packagist v0.1.0 is now public."
   },
   {
     "platform": "nuget",
@@ -145,12 +146,27 @@
     "owner": "litportnet",
     "version": "0.1.0",
     "url": "https://www.nuget.org/packages/Litportnet.FreeProxy",
-    "status": "indexing",
+    "status": "live",
     "homepage": "https://litport.net/free-proxy",
     "publicationRun": "https://github.com/litportnet/free-proxy-sdk/actions/runs/35155133990",
-    "note": "OIDC publication and public page verified. Direct NuGet package download available; default install/restore waits for registry indexing.",
-    "verifiedAt": "2026-09-16T22:03:12.463Z",
-    "indexEvidence": "NuGet displays not indexed yet; Google indexing not checked",
+    "note": "Public listing, default NuGet v3 restore and live API call from installed registry package verified.",
+    "verifiedAt": "2026-09-16T22:21:28.702Z",
+    "indexEvidence": "NuGet indexed; Google indexing not checked",
     "outboundRel": "nofollow"
+  },
+  {
+    "platform": "packagist",
+    "artifact": "PHP SDK",
+    "owner": "litport",
+    "namespace": "litportnet",
+    "version": "0.1.0",
+    "url": "https://packagist.org/packages/litportnet/free-proxy-sdk",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-16T22:21:28.702Z",
+    "indexEvidence": "Composer package metadata available; Google indexing not checked",
+    "outboundRel": "nofollow noindex noopener external ugc",
+    "autoUpdated": false,
+    "note": "Registry version, source/dist commit, PHP requirement, autoload metadata and Litport links verified. Packagist warns not auto-updated."
   }
 ]
