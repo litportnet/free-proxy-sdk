@@ -1,0 +1,19 @@
+Package: litportFreeProxy
+Title: Client for the Litport Free Proxy Snapshot API
+Version: 0.1.0
+Authors@R: person("Litport", role = c("aut", "cre"), email = "support@litport.net")
+Description: Fetches and validates snapshots of verified HTTP, SOCKS4, and
+    SOCKS5 proxies from the Litport free proxy API. Filters results by
+    protocol, country, anonymity, HTTPS support, latency, uptime, and
+    freshness, returning a normalized data frame. Validation rejects
+    private and reserved IPv4 ranges, malformed timestamps, and truncated
+    or stale snapshots.
+License: MIT + file LICENSE
+URL: https://litport.net/free-proxy, https://litport.net/docs/free-proxy-api,
+    https://github.com/litportnet/free-proxy-sdk
+BugReports: https://github.com/litportnet/free-proxy-sdk/issues
+Imports: curl, jsonlite
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+Depends: R (>= 4.1)
