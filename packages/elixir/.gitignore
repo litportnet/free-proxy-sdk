@@ -1,0 +1,6 @@
+_build/
+deps/
+*.ez
+doc/
+.elixir_ls/
+litportnet_free_proxy-*.tar

@@ -2,9 +2,9 @@ name: Additional language package checks
 on:
   push:
     branches: [main]
-    paths: ['packages/php/**', 'packages/ruby/**', 'packages/dotnet/**', '.github/workflows/language-*.yml', 'scripts/sync-php-repository.mjs']
+    paths: ['packages/php/**', 'packages/ruby/**', 'packages/dotnet/**', 'packages/perl/**', 'packages/elixir/**', 'packages/dart/**', 'packages/r/**', '.github/workflows/language-*.yml', 'scripts/sync-php-repository.mjs']
   pull_request:
-    paths: ['packages/php/**', 'packages/ruby/**', 'packages/dotnet/**', '.github/workflows/language-*.yml', 'scripts/sync-php-repository.mjs']
+    paths: ['packages/php/**', 'packages/ruby/**', 'packages/dotnet/**', 'packages/perl/**', 'packages/elixir/**', 'packages/dart/**', 'packages/r/**', '.github/workflows/language-*.yml', 'scripts/sync-php-repository.mjs']
   workflow_dispatch:
 permissions:
   contents: read
@@ -36,3 +36,71 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - run: dotnet run --project packages/dotnet/tests/Litportnet.FreeProxy.Tests && dotnet pack packages/dotnet/src/Litportnet.FreeProxy -c Release
+  perl:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        perl-version: ['5.16', '5.38']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: ${{ matrix.perl-version }}
+      - run: perl Makefile.PL && make && make test && make manifest && make dist
+        working-directory: packages/perl
+  elixir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '26'
+          elixir-version: '1.16'
+      # mix docs is what hex.publish runs to build HexDocs, so a docs failure must
+      # surface here rather than halfway through a release.
+      - run: mix deps.get && mix compile --warnings-as-errors && mix test && mix docs && mix hex.build
+        working-directory: packages/elixir
+      # The offline suite never touches :httpc or TLS, so exercise the real path once.
+      - name: Live snapshot smoke test
+        continue-on-error: true
+        working-directory: packages/elixir
+        run: mix run smoke.exs
+  dart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart pub get && dart analyze --fatal-infos && dart format --output=none --set-exit-if-changed . && dart test && dart pub publish --dry-run
+        working-directory: packages/dart
+      # The offline suite never touches HttpClient or TLS, so exercise the real path once.
+      - name: Live snapshot smoke test
+        continue-on-error: true
+        working-directory: packages/dart
+        run: dart run smoke.dart
+  r:
+    runs-on: ubuntu-latest
+    env:
+      R_KEEP_PKG_SOURCE: yes
+    steps:
+      - uses: actions/checkout@v7
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: packages/r
+          extra-packages: any::rcmdcheck
+          needs: check
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          working-directory: packages/r
+          upload-snapshots: true
+          args: 'c("--no-manual", "--as-cran")'
+      # The offline suite never touches curl, so exercise the real path once.
+      - name: Live snapshot smoke test
+        continue-on-error: true
+        run: |
+          R CMD INSTALL packages/r
+          Rscript packages/r/smoke.R
