@@ -56,7 +56,9 @@ jobs:
         with:
           otp-version: '26'
           elixir-version: '1.16'
-      - run: mix deps.get && mix compile --warnings-as-errors && mix test && mix hex.build
+      # mix docs is what hex.publish runs to build HexDocs, so a docs failure must
+      # surface here rather than halfway through a release.
+      - run: mix deps.get && mix compile --warnings-as-errors && mix test && mix docs && mix hex.build
         working-directory: packages/elixir
       # The offline suite never touches :httpc or TLS, so exercise the real path once.
       - name: Live snapshot smoke test
@@ -70,8 +72,13 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
-      - run: dart pub get && dart analyze --fatal-infos && dart test && dart pub publish --dry-run
+      - run: dart pub get && dart analyze --fatal-infos && dart format --output=none --set-exit-if-changed . && dart test && dart pub publish --dry-run
         working-directory: packages/dart
+      # The offline suite never touches HttpClient or TLS, so exercise the real path once.
+      - name: Live snapshot smoke test
+        continue-on-error: true
+        working-directory: packages/dart
+        run: dart run smoke.dart
   r:
     runs-on: ubuntu-latest
     env:

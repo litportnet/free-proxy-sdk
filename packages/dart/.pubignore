@@ -1,0 +1,7 @@
+.dart_tool/
+pubspec.lock
+build/
+doc/api/
+
+# CI-only live check against the real API; not part of the published package.
+smoke.dart
