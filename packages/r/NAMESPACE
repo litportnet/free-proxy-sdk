@@ -1,0 +1,6 @@
+export(get_proxies)
+export(litport_client)
+export(pick_best)
+importFrom(curl, curl_fetch_memory)
+importFrom(curl, new_handle)
+importFrom(jsonlite, fromJSON)
