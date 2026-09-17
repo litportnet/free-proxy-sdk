@@ -276,5 +276,17 @@
     "verifiedAt": "2026-09-17T19:26:32.142Z",
     "indexEvidence": "not checked",
     "outboundRel": "none"
+  },
+  {
+    "platform": "cpan",
+    "artifact": "Perl SDK",
+    "owner": "LITPORT",
+    "version": "0.001",
+    "url": "https://metacpan.org/pod/WebService::Litportnet::FreeProxy",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T19:53:57.034Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "not yet recorded (metacpan.org returns 402 to browser-like scripted fetches)"
   }
 ]
