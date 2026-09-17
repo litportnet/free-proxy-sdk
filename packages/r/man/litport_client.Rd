@@ -1,6 +1,11 @@
 \name{litport_client}
 \alias{litport_client}
 \title{Create a Litport Free Proxy Client}
+\description{
+Creates a client object holding the snapshot endpoint, request timeout, and
+optional transport and clock overrides used by \code{\link{get_proxies}} and
+\code{\link{pick_best}}. No network request is made here.
+}
 \usage{
 litport_client(api_url = NULL, timeout = 10, transport = NULL, now = NULL)
 }

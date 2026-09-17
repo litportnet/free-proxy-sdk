@@ -1,6 +1,11 @@
 \name{pick_best}
 \alias{pick_best}
 \title{Fetch the Best Litport Free Proxies}
+\description{
+Fetches the Litport free proxy snapshot and returns at most \code{count} of the
+highest-ranked matching proxy records, applying the same filters and ordering as
+\code{\link{get_proxies}}.
+}
 \usage{
 pick_best(client, count, ...)
 }

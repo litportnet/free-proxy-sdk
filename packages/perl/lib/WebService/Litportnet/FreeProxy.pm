@@ -505,17 +505,22 @@ sub _validate_generated_at {
         unless defined($time) && $time <= $now + 5 && $time >= $now - 120;
 }
 
+# POSIX::isnan and POSIX::isinf are not portable across the perl versions this
+# distribution supports, so test for NaN and infinity arithmetically instead.
+sub _is_nan { my ($v) = @_; return $v != $v }
+sub _is_inf { my ($v) = @_; return $v == 9**9**9 || $v == -9**9**9 }
+
 sub _is_finite_number {
     my ($v) = @_;
     return 0 unless defined($v) && !ref($v) && Scalar::Util::looks_like_number($v);
-    return 0 if POSIX::isnan($v) || POSIX::isinf($v);
+    return 0 if _is_nan($v) || _is_inf($v);
     return 1;
 }
 
 sub _is_nonneg_int {
     my ($v) = @_;
     return 0 unless defined($v) && !ref($v) && Scalar::Util::looks_like_number($v);
-    return 0 if POSIX::isnan($v) || POSIX::isinf($v);
+    return 0 if _is_nan($v) || _is_inf($v);
     return 0 unless $v == int($v);
     return 0 if $v < 0;
     return 1;
