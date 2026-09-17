@@ -290,8 +290,7 @@ void main() {
   test('rejects a non-public IPv4 host', () async {
     final fixture = _loadFixture();
     final proxies = List<Map<String, dynamic>>.from(fixture['proxies']);
-    proxies[0] = Map<String, dynamic>.from(proxies[0])
-      ..['host'] = '127.0.0.1';
+    proxies[0] = Map<String, dynamic>.from(proxies[0])..['host'] = '127.0.0.1';
     fixture['proxies'] = proxies;
     final client = _clientFor(fixture);
     await expectLater(
