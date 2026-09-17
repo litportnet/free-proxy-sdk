@@ -1,0 +1,22 @@
+name: litportnet_free_proxy
+description: >-
+  Dependency-free Dart client for Litport's free-proxy API snapshot of
+  verified HTTP, SOCKS4, and SOCKS5 proxies, with typed filtering.
+version: 0.1.0
+homepage: https://litport.net/free-proxy
+repository: https://github.com/litportnet/free-proxy-sdk
+issue_tracker: https://github.com/litportnet/free-proxy-sdk/issues
+documentation: https://litport.net/docs/free-proxy-api
+topics:
+  - proxy
+  - proxies
+  - network
+  - http
+  - socks
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^5.0.0
