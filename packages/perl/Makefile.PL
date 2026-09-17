@@ -3,14 +3,17 @@ use warnings;
 
 use ExtUtils::MakeMaker;
 
-WriteMakefile(
+my %args = (
     NAME             => 'WebService::Litportnet::FreeProxy',
     VERSION_FROM     => 'lib/WebService/Litportnet/FreeProxy.pm',
     ABSTRACT_FROM    => 'lib/WebService/Litportnet/FreeProxy.pm',
     AUTHOR           => 'Litport <litport@cpan.org>',
     LICENSE          => 'mit',
     MIN_PERL_VERSION => '5.016',
-    PREREQ_PM        => {
+    CONFIGURE_REQUIRES => {
+        'ExtUtils::MakeMaker' => '6.52',
+    },
+    PREREQ_PM => {
         'HTTP::Tiny'   => 0,
         'JSON::PP'     => 0,
         'Time::Local'  => 0,
@@ -41,3 +44,19 @@ WriteMakefile(
         x_documentation => 'https://litport.net/docs/free-proxy-api',
     },
 );
+
+# Older ExtUtils::MakeMaker releases, including the one bundled with perl 5.16,
+# do not understand these keys and would silently drop the declarations.
+my $eumm = eval { ExtUtils::MakeMaker->VERSION } || 0;
+
+if ( $eumm < 6.64 ) {
+    my $test_requires = delete $args{TEST_REQUIRES} || {};
+    $args{PREREQ_PM} = { %{ $args{PREREQ_PM} }, %$test_requires };
+}
+
+delete $args{CONFIGURE_REQUIRES} if $eumm < 6.52;
+delete $args{META_MERGE}         if $eumm < 6.46;
+delete $args{MIN_PERL_VERSION}   if $eumm < 6.48;
+delete $args{LICENSE}            if $eumm < 6.31;
+
+WriteMakefile(%args);

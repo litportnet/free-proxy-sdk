@@ -1,6 +1,11 @@
 \name{get_proxies}
 \alias{get_proxies}
 \title{Fetch and Filter Litport Free Proxies}
+\description{
+Fetches the Litport free proxy snapshot, validates it, and returns the matching
+proxy records as a normalized data frame ordered by seven-day uptime, then
+latency, then URL.
+}
 \usage{
 get_proxies(client, ...)
 }
