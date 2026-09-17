@@ -119,7 +119,10 @@ jobs:
           mix deps.get
           mix compile --warnings-as-errors
           mix test
-          grep -qF "version: \"$RELEASE_VERSION\"" mix.exs || { echo 'Version mismatch with mix.exs' >&2; exit 1; }
+          # mix.exs sets version: @version, so read the resolved project config
+          # rather than pattern-matching the source.
+          ACTUAL="$(mix run --no-start -e 'IO.write(Mix.Project.config()[:version])')"
+          test "$ACTUAL" = "$RELEASE_VERSION" || { echo "mix.exs version $ACTUAL does not match requested $RELEASE_VERSION" >&2; exit 1; }
       - name: Publish package and docs to Hex
         working-directory: packages/elixir
         env:
