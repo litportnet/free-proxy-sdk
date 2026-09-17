@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/litportnet/free-proxy-sdk/compare/python-v0.1.2...python-v0.2.0) (2026-09-17)
+
+
+### Features
+
+* add Go, Rust, JSR and public distribution tooling ([3d551fd](https://github.com/litportnet/free-proxy-sdk/commit/3d551fd3c8ee0821d4c4cd5522ece11de39c9d26))
+
 ## [0.1.2](https://github.com/litportnet/free-proxy-sdk/compare/python-v0.1.1...python-v0.1.2) (2026-09-15)
 
 

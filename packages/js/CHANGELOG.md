@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/litportnet/free-proxy-sdk/compare/js-v1.0.0...js-v1.1.0) (2026-09-17)
+
+
+### Features
+
+* add Go, Rust, JSR and public distribution tooling ([3d551fd](https://github.com/litportnet/free-proxy-sdk/commit/3d551fd3c8ee0821d4c4cd5522ece11de39c9d26))
+
 ## 1.0.0 (2026-09-15)
 
 
