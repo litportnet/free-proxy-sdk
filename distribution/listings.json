@@ -252,5 +252,29 @@
     "verifiedAt": "2026-09-17T18:53:38.801Z",
     "indexEvidence": "not checked",
     "outboundRel": "not yet recorded (package page is client-rendered)"
+  },
+  {
+    "platform": "glama",
+    "artifact": "MCP server listing",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://glama.ai/mcp/servers/@litportnet/free-proxy-mcp",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T19:26:32.142Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "ugc nofollow"
+  },
+  {
+    "platform": "lobehub",
+    "artifact": "MCP server listing",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://lobehub.com/mcp/litportnet-free-proxy-mcp",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T19:26:32.142Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "none"
   }
 ]
