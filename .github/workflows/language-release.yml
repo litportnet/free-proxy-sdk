@@ -7,7 +7,7 @@ on:
         description: Package to publish after tests pass
         required: true
         type: choice
-        options: [ruby, nuget, php]
+        options: [ruby, nuget, php, hex, perl]
       version:
         description: Exact package version (without v)
         required: true
@@ -100,3 +100,61 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PHP_REPOSITORY_TOKEN }}
           RELEASE_VERSION: ${{ inputs.version }}
         run: node scripts/sync-php-repository.mjs --version "$RELEASE_VERSION"
+
+  hex:
+    if: github.ref == 'refs/heads/main' && inputs.target == 'hex'
+    runs-on: ubuntu-latest
+    environment: hex
+    steps:
+      - uses: actions/checkout@v7
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '26'
+          elixir-version: '1.16'
+      - name: Test and verify version
+        working-directory: packages/elixir
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          mix deps.get
+          mix compile --warnings-as-errors
+          mix test
+          grep -qF "version: \"$RELEASE_VERSION\"" mix.exs || { echo 'Version mismatch with mix.exs' >&2; exit 1; }
+      - name: Publish package and docs to Hex
+        working-directory: packages/elixir
+        env:
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        run: |
+          test -n "$HEX_API_KEY" || { echo 'HEX_API_KEY secret is not configured' >&2; exit 1; }
+          mix hex.publish --yes
+
+  perl:
+    if: github.ref == 'refs/heads/main' && inputs.target == 'perl'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.38'
+      - name: Test and build distribution
+        working-directory: packages/perl
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          perl Makefile.PL
+          make
+          make test
+          make manifest
+          make dist
+          test -f "WebService-Litportnet-FreeProxy-$RELEASE_VERSION.tar.gz" || { echo 'Distribution version mismatch' >&2; exit 1; }
+      - name: Attach distribution to a GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          gh release create "perl-v$RELEASE_VERSION" \
+            "packages/perl/WebService-Litportnet-FreeProxy-$RELEASE_VERSION.tar.gz" \
+            --title "Perl WebService-Litportnet-FreeProxy $RELEASE_VERSION" \
+            --notes 'Upload this tarball to PAUSE: https://pause.perl.org/pause/authenquery?ACTION=add_uri'
