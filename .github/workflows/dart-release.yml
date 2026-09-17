@@ -1,19 +1,27 @@
 # Publishes packages/dart to pub.dev with pub.dev's automated publishing (OIDC).
 #
-# Prerequisite (one time, pub.dev side): version 0.1.0 must already be published
-# manually with `dart pub publish`, then enable
-#   pub.dev -> litportnet_free_proxy -> Admin -> Automated publishing -> GitHub Actions
-# with repository `litportnet/free-proxy-sdk` and tag pattern `dart-v{{version}}`.
+# This is pub.dev's own recommended workflow, with the `working-directory` input
+# that its generic snippet leaves commented out. pub.dev validates the repository
+# and the git tag against the configured tag pattern, not the name of this file,
+# so it does not have to be called publish.yml. Do not also add publish.yml from
+# the pub.dev setup page: without `working-directory` it would try to publish the
+# repository root, which is not a Dart package, and a single tag would fire both.
+#
+# pub.dev side (already configured): litportnet_free_proxy -> Admin ->
+# Automated publishing -> GitHub Actions, repository `litportnet/free-proxy-sdk`,
+# tag pattern `dart-v{{version}}`.
 name: Publish Dart package
 
 on:
   push:
-    tags: ['dart-v[0-9]+.[0-9]+.[0-9]+']
+    # Matches pub.dev's generated pattern; the trailing * allows prerelease tags
+    # such as dart-v0.2.0-beta.1.
+    tags: ['dart-v[0-9]+.[0-9]+.[0-9]+*']
 
 jobs:
   publish:
     permissions:
-      id-token: write
+      id-token: write # Required for authentication using OIDC
       contents: read
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
     with:
