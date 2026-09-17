@@ -168,5 +168,89 @@
     "outboundRel": "nofollow noindex noopener external ugc",
     "autoUpdated": false,
     "note": "Registry version, source/dist commit, PHP requirement, autoload metadata and Litport links verified. Packagist warns not auto-updated."
+  },
+  {
+    "platform": "github",
+    "artifact": "MCP server repository",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://github.com/litportnet/free-proxy-mcp",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T18:53:38.801Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "not yet recorded"
+  },
+  {
+    "platform": "npm",
+    "artifact": "MCP server package",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://www.npmjs.com/package/@litportnet/free-proxy-mcp",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T18:53:38.801Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "not yet recorded (npmjs.com returned 403 to a scripted fetch)"
+  },
+  {
+    "platform": "mcp-registry",
+    "artifact": "io.github.litportnet/free-proxy-mcp",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://registry.modelcontextprotocol.io/v0/servers?search=io.github.litportnet/free-proxy-mcp",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T18:53:38.801Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "none (JSON metadata API, not an HTML page)"
+  },
+  {
+    "platform": "hex",
+    "artifact": "Elixir SDK",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://hex.pm/packages/litportnet_free_proxy",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T18:53:38.801Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "nofollow"
+  },
+  {
+    "platform": "hexdocs",
+    "artifact": "Elixir SDK documentation",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://litportnet-free-proxy.hexdocs.pm/",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T18:53:38.801Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "not yet recorded"
+  },
+  {
+    "platform": "pub.dev",
+    "artifact": "Dart SDK",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://pub.dev/packages/litportnet_free_proxy",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T18:53:38.801Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "ugc"
+  },
+  {
+    "platform": "r-universe",
+    "artifact": "R SDK",
+    "owner": "litportnet",
+    "version": "0.1.0",
+    "url": "https://litportnet.r-universe.dev/litportFreeProxy",
+    "status": "live",
+    "homepage": "https://litport.net/free-proxy",
+    "verifiedAt": "2026-09-17T18:53:38.801Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "not yet recorded (package page is client-rendered)"
   }
 ]
