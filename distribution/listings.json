@@ -288,5 +288,17 @@
     "verifiedAt": "2026-09-17T19:53:57.034Z",
     "indexEvidence": "not checked",
     "outboundRel": "not yet recorded (metacpan.org returns 402 to browser-like scripted fetches)"
+  },
+  {
+    "platform": "public-apis",
+    "artifact": "Free proxy API directory listing",
+    "owner": "public-apis",
+    "version": "n/a",
+    "url": "https://github.com/public-apis/public-apis#development",
+    "status": "live",
+    "homepage": "https://litport.net/docs/free-proxy-api",
+    "verifiedAt": "2026-09-20T05:42:53.236Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "nofollow"
   }
 ]
