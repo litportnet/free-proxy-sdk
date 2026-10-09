@@ -300,5 +300,17 @@
     "verifiedAt": "2026-09-20T05:42:53.236Z",
     "indexEvidence": "not checked",
     "outboundRel": "nofollow"
+  },
+  {
+    "platform": "awesome-mcp-servers",
+    "artifact": "MCP server list entry",
+    "owner": "punkpeye",
+    "version": "0.1.0",
+    "url": "https://github.com/punkpeye/awesome-mcp-servers#search",
+    "status": "live",
+    "homepage": "https://github.com/litportnet/free-proxy-mcp",
+    "verifiedAt": "2026-10-09T23:31:19.777Z",
+    "indexEvidence": "not checked",
+    "outboundRel": "not recorded (entry links the GitHub repository and Glama, not litport.net)"
   }
 ]
